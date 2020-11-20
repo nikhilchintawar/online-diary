@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/online-diary/static/css/main.972a8f8d.chunk.css",
+    "main.js": "/online-diary/static/js/main.c8182f8f.chunk.js",
+    "main.js.map": "/online-diary/static/js/main.c8182f8f.chunk.js.map",
+    "runtime-main.js": "/online-diary/static/js/runtime-main.59b4f8b5.js",
+    "runtime-main.js.map": "/online-diary/static/js/runtime-main.59b4f8b5.js.map",
+    "static/js/2.0e44cdfc.chunk.js": "/online-diary/static/js/2.0e44cdfc.chunk.js",
+    "static/js/2.0e44cdfc.chunk.js.map": "/online-diary/static/js/2.0e44cdfc.chunk.js.map",
+    "static/js/3.3bdbc204.chunk.js": "/online-diary/static/js/3.3bdbc204.chunk.js",
+    "static/js/3.3bdbc204.chunk.js.map": "/online-diary/static/js/3.3bdbc204.chunk.js.map",
+    "index.html": "/online-diary/index.html",
+    "static/css/main.972a8f8d.chunk.css.map": "/online-diary/static/css/main.972a8f8d.chunk.css.map",
+    "static/js/2.0e44cdfc.chunk.js.LICENSE.txt": "/online-diary/static/js/2.0e44cdfc.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.59b4f8b5.js",
+    "static/js/2.0e44cdfc.chunk.js",
+    "static/css/main.972a8f8d.chunk.css",
+    "static/js/main.c8182f8f.chunk.js"
+  ]
+}
