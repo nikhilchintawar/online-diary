@@ -1,0 +1,51 @@
+.note {
+    background: #fff;
+    border-radius: 7px;
+    box-shadow: 0 2px 5px #ccc;
+    padding: 10px;
+    width: 240px;
+    margin: 16px;
+    float: left;
+  }
+
+  .note header{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  .note h1 {
+    font-size: 1.2em;
+    margin-bottom: 6px;
+  }
+
+  .note span{
+      font-size: 1rem;
+      align-self: center;
+  }
+  
+  .note p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  .note button {
+    border: none;
+    outline: none;
+    min-width: 20px;
+    font-size: 10px;
+    height: 35px;
+  }
+
+  .note-buttons{
+    display: flex;
+    justify-content: space-between;
+  }
+
+@media screen and (max-width: 800px){
+  .note{
+    width: 80%;
+  }
+}

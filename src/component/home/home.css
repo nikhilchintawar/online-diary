@@ -1,0 +1,28 @@
+.all-notes{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 50px;
+    row-gap: 50px;
+    padding: 10px;
+}
+
+.select-options{
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 10px;
+}
+
+
+@media screen and (max-width: 800px){
+    .all-notes{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .select-options{
+        display: flex;
+        justify-content: center;
+    }
+}
