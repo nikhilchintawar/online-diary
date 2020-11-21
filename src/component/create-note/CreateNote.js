@@ -1,4 +1,4 @@
-import "./create-note.css";
+import "./CreateNote.css";
 import { useState } from "react";
 import CustomButton from "../custom-button/CustomButton";
 import FormInput from "../form-input/FormInput";

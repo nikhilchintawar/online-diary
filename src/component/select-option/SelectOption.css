@@ -2,4 +2,9 @@ select{
     padding: 1rem;
     border-radius: 0.7rem;
     background-color: transparent;
+    color: #000000;
+}
+
+option{
+    color: #000000;
 }

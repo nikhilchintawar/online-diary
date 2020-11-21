@@ -1,4 +1,4 @@
-import "./note.css";
+import "./Note.css";
 import { Link } from "react-router-dom"
 import CustomButton from "./../custom-button/CustomButton";
 

@@ -1,4 +1,4 @@
-import "./custom-button.css";
+import "./CustomButton.css";
 
 const CustomButton = ({
   children,

@@ -1,4 +1,4 @@
-import "./forminput.css";
+import "./FormInput.css";
 
 const FormInput = ({type, ...otherProps}) => {
     return (

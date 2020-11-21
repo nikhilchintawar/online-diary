@@ -1,4 +1,4 @@
-import './home.css';
+import './Home.css';
 
 import CreateNote from '../create-note/CreateNote';
 import {useState } from 'react';
@@ -99,11 +99,11 @@ const Home = () => {
                 onChange={handleChange}
                 sortType={sortType}
             />
-            <select value={yearValue} onChange={handleYearChange}>
-                {
-                    sortYear.map((value, index) => <option value={value} key={index}>{value}</option>)
-                }
-            </select>
+          <select value={yearValue} onChange={handleYearChange}>
+              {
+                  sortYear.map((value, index) => <option value={value} key={index}>{value}</option>)
+              }
+          </select>
             <SelectOption
                 value={monthValue}
                 onChange={handleMonthChange}
