@@ -7,4 +7,4 @@ from .models import Notes
 class NotesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Notes
-        fields = ('title', 'description')
+        fields = ('id', 'title', 'description', 'created_at', 'updated_at')

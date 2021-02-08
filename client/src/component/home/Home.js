@@ -9,9 +9,14 @@ import Header from "../header/Header";
 import SelectOption from "../select-option/SelectOption";
 
 const Home = () => {
-  const [notes, setNotes] = useState(
-    JSON.parse(localStorage.getItem("notes")) || []
-  );
+  const [notes, setNotes] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/notes")
+      .then((response) => setNotes(response.data))
+      .catch((error) => console.log(error));
+  }, []);
 
   const [sortType] = useState([
     { value: "NEW", label: "NEWEST FIRST" },
@@ -19,7 +24,8 @@ const Home = () => {
   ]);
   const [value, setValue] = useState("NEW");
 
-  const [sortYear] = useState(notes.map((note) => note.date.split("-")[0]));
+  // notes.map((note) => note.date.split("-")[0]);
+  const [sortYear] = useState();
   const [yearValue, setYearValue] = useState("Choose Year");
 
   const [sortMonth] = useState([
@@ -37,12 +43,6 @@ const Home = () => {
     { value: "12", label: "Dec" },
   ]);
   const [monthValue, setMonthValue] = useState("month");
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/notes")
-      .then((response) => console.log(response));
-  });
 
   const addNote = (newNote) => {
     setNotes((prevNotes) => {
@@ -101,7 +101,7 @@ const Home = () => {
       <Header />
       <CreateNote addNote={addNote} />
 
-      <div className="select-options">
+      {/* <div className="select-options">
         <SelectOption
           value={value}
           onChange={handleChange}
@@ -119,22 +119,23 @@ const Home = () => {
           onChange={handleMonthChange}
           sortType={sortMonth}
         />
-      </div>
+      </div> */}
 
       <div className="all-notes">
-        {notes.map((note, index) => {
-          return (
-            <Note
-              key={index}
-              id={index}
-              title={note.title}
-              content={note.content}
-              date={note.date}
-              deleteNote={deleteNote}
-              updateNote={updateNote}
-            />
-          );
-        })}
+        {notes &&
+          notes.map(({ id, title, description, created_at }) => {
+            return (
+              <Note
+                key={id}
+                id={id}
+                title={title}
+                content={description}
+                date={created_at}
+                deleteNote={deleteNote}
+                updateNote={updateNote}
+              />
+            );
+          })}
       </div>
     </div>
   );
