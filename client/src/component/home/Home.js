@@ -14,8 +14,11 @@ const Home = () => {
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/notes")
-      .then((response) => setNotes(response.data))
-      .catch((error) => console.log(error));
+      .then((response) => {
+        setNotes(response.data?.results);
+        console.log(response);
+      })
+      .catch((error) => console.log(error.response));
   }, []);
 
   const [sortType] = useState([
@@ -122,6 +125,7 @@ const Home = () => {
       </div> */}
 
       <div className="all-notes">
+        {notes === null && <p>Loading...</p>}
         {notes &&
           notes.map(({ id, title, description, created_at }) => {
             return (
