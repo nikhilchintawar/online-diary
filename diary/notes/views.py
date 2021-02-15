@@ -1,4 +1,3 @@
-from django.db.models.fields import Field
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 
@@ -15,6 +14,12 @@ class NotesViewSet(viewsets.ModelViewSet):
     lookup_field = "pk"
     pagination_class = NotesPagination
     serializer_class = NotesSerializer
+
+    # Cache object
+    def get_object(self, *args, **kwargs):
+        if not getattr(self, "_object", None):
+            self._object = super().get_object(*args, **kwargs)
+        return self._object
 
     def get_queryset(self):
         notes = Notes.objects.all()
