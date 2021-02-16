@@ -33,13 +33,14 @@ class NotesViewSet(viewsets.ModelViewSet):
         print(query)
         if query is not None:
             notes = notes.filter(
-                Q(title__icontains=query)
-                | Q(created_at__year__icontains=query)
-                | Q(created_at__month__icontains=query)
+                Q(title__icontains=query) | Q(description__icontains=query)
             ).distinct()
 
         default_order = "asc"
-        sorts = {"asc": "created_at", "desc": "-created_at"}
+        sorts = {
+            "asc": "created_at",
+            "desc": "-created_at",
+        }
         order_by = sorts.get(self.request.GET.get("sort", default_order))
 
         notes = notes.order_by(order_by)
