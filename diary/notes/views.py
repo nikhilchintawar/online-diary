@@ -36,6 +36,18 @@ class NotesViewSet(viewsets.ModelViewSet):
                 Q(title__icontains=query) | Q(description__icontains=query)
             ).distinct()
 
+        year = self.request.GET.get('year', None)
+        if year is not None:
+            notes = notes.filter(
+                created_at__year__icontains = year
+            ).distinct()
+
+        month = self.request.GET.get('month', None)
+        if month is not None:
+            notes = notes.filter(
+                created_at__month__icontains = month
+            ).distinct()
+
         default_order = "asc"
         sorts = {
             "asc": "created_at",
