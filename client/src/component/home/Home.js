@@ -10,22 +10,13 @@ import SelectOption from "../select-option/SelectOption";
 
 const Home = () => {
   const [notes, setNotes] = useState(null);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/notes")
-      .then((response) => {
-        setNotes(response.data?.results);
-        console.log(response);
-      })
-      .catch((error) => console.log(error.response));
-  }, []);
+  const [reload, setReload] = useState(false);
 
   const [sortType] = useState([
-    { value: "NEW", label: "NEWEST FIRST" },
-    { value: "OLD", label: "OLDEST FIRST" },
+    { value: "asc", label: "NEWEST FIRST" },
+    { value: "desc", label: "OLDEST FIRST" },
   ]);
-  const [value, setValue] = useState("NEW");
+  const [sort, setSort] = useState(sortType[0].value);
 
   // notes.map((note) => note.date.split("-")[0]);
   const [sortYear] = useState();
@@ -45,50 +36,14 @@ const Home = () => {
     { value: "11", label: "Nov" },
     { value: "12", label: "Dec" },
   ]);
-  const [monthValue, setMonthValue] = useState("month");
-
-  const addNote = (newNote) => {
-    setNotes((prevNotes) => {
-      localStorage.setItem("notes", JSON.stringify([...prevNotes, newNote]));
-      return [...prevNotes, newNote];
-    });
-  };
-
-  const deleteNote = (id) => {
-    setNotes((prevNotes) => {
-      return prevNotes.filter((note, index) => index !== id);
-    });
-  };
-
-  const updateNote = (id) => {
-    notes.map((note, index) => {
-      if (id === index) {
-        return <UpdateNote id={id} />;
-      } else {
-        return "note is not available.";
-      }
-    });
-  };
+  const [month, setMonth] = useState("");
 
   const handleChange = (event) => {
-    setValue(event.target.value);
-    if (value === "NEW") {
-      notes.sort((note1, note2) => {
-        return note1.date > note2.date ? 1 : -1;
-      });
-    } else if (value === "OLD") {
-      notes.sort((note1, note2) => {
-        return note2.date > note1.date ? 1 : -1;
-      });
-    }
+    setSort(event.target.value);
   };
 
   const handleMonthChange = (event) => {
-    setNotes(JSON.parse(localStorage.getItem("notes")) || []);
-    setMonthValue(event.target.value);
-    setNotes((prevNotes) =>
-      prevNotes.filter((note) => note.date.split("-")[1] === event.target.value)
-    );
+    setMonth(event.target.value);
   };
 
   const handleYearChange = (event) => {
@@ -99,30 +54,53 @@ const Home = () => {
     );
   };
 
+  const deleteNote = (id) => {
+    axios
+      .delete(`http://localhost:8000/api/notes/${id}`)
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    console.log(sort);
+    axios
+      .get("http://localhost:8000/api/notes/", {
+        params: {
+          sort,
+          month,
+        },
+      })
+      .then((response) => {
+        setNotes(response.data?.results);
+        console.log(response);
+      })
+      .catch((error) => console.log(error.response));
+  }, [sort, month]);
+
   return (
     <div className="App">
       <Header />
-      <CreateNote addNote={addNote} />
+      <CreateNote />
 
-      {/* <div className="select-options">
+      <div className="select-options">
         <SelectOption
-          value={value}
+          value={sort}
           onChange={handleChange}
           sortType={sortType}
         />
-        <select value={yearValue} onChange={handleYearChange}>
+        {/*<select value={yearValue} onChange={handleYearChange}>
           {sortYear.map((value, index) => (
             <option value={value} key={index}>
               {value}
             </option>
           ))}
-        </select>
+        </select>*/}
         <SelectOption
-          value={monthValue}
+          value={month}
           onChange={handleMonthChange}
           sortType={sortMonth}
         />
-      </div> */}
+      </div>
 
       <div className="all-notes">
         {notes === null && <p>Loading...</p>}
@@ -136,7 +114,6 @@ const Home = () => {
                 content={description}
                 date={created_at}
                 deleteNote={deleteNote}
-                updateNote={updateNote}
               />
             );
           })}

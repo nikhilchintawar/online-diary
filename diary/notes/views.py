@@ -16,9 +16,9 @@ class NotesViewSet(viewsets.ModelViewSet):
     lookup_field = "pk"
     pagination_class = NotesPagination
     serializer_class = NotesSerializer
-    permission_classes = [
-        IsAuthenticatedOrReadOnly,
-    ]
+    # permission_classes = [
+    #     IsAuthenticatedOrReadOnly,
+    # ]
 
     # Cache object
     def get_object(self, *args, **kwargs):
@@ -36,17 +36,13 @@ class NotesViewSet(viewsets.ModelViewSet):
                 Q(title__icontains=query) | Q(description__icontains=query)
             ).distinct()
 
-        year = self.request.GET.get('year', None)
+        year = self.request.GET.get("year", None)
         if year is not None:
-            notes = notes.filter(
-                created_at__year__icontains = year
-            ).distinct()
+            notes = notes.filter(created_at__year__icontains=year).distinct()
 
-        month = self.request.GET.get('month', None)
+        month = self.request.GET.get("month", None)
         if month is not None:
-            notes = notes.filter(
-                created_at__month__icontains = month
-            ).distinct()
+            notes = notes.filter(created_at__month__icontains=month).distinct()
 
         default_order = "asc"
         sorts = {
