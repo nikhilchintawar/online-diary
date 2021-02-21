@@ -10,7 +10,6 @@ import SelectOption from "../select-option/SelectOption";
 
 const Home = () => {
   const [notes, setNotes] = useState(null);
-  const [reload, setReload] = useState(false);
 
   const [sortType] = useState([
     { value: "asc", label: "NEWEST FIRST" },
@@ -18,20 +17,20 @@ const Home = () => {
   ]);
   const [sort, setSort] = useState(sortType[0].value);
 
-  // notes.map((note) => note.date.split("-")[0]);
-  const [sortYear] = useState();
-  const [yearValue, setYearValue] = useState("Choose Year");
+  const [sortYear, setSortYear] = useState(null);
+
+  const [year, setYear] = useState(new Date().getFullYear());
 
   const [sortMonth] = useState([
-    { value: "01", label: "Jan" },
-    { value: "02", label: "Feb" },
-    { value: "03", label: "Mar" },
-    { value: "04", label: "Apr" },
-    { value: "05", label: "May" },
-    { value: "06", label: "Jun" },
-    { value: "07", label: "Jul" },
-    { value: "08", label: "Aug" },
-    { value: "09", label: "Sep" },
+    { value: "1", label: "Jan" },
+    { value: "2", label: "Feb" },
+    { value: "3", label: "Mar" },
+    { value: "4", label: "Apr" },
+    { value: "5", label: "May" },
+    { value: "6", label: "Jun" },
+    { value: "7", label: "Jul" },
+    { value: "8", label: "Aug" },
+    { value: "9", label: "Sep" },
     { value: "10", label: "Oct" },
     { value: "11", label: "Nov" },
     { value: "12", label: "Dec" },
@@ -47,11 +46,7 @@ const Home = () => {
   };
 
   const handleYearChange = (event) => {
-    setNotes(JSON.parse(localStorage.getItem("notes")) || []);
-    setYearValue(event.target.value);
-    setNotes((prevNotes) =>
-      prevNotes.filter((note) => note.date.split("-")[0] === event.target.value)
-    );
+    setYear(event.target.value);
   };
 
   const deleteNote = (id) => {
@@ -63,19 +58,27 @@ const Home = () => {
 
   useEffect(() => {
     console.log(sort);
+    const params = {
+      sort,
+      month,
+      year,
+    };
     axios
       .get("http://localhost:8000/api/notes/", {
-        params: {
-          sort,
-          month,
-        },
+        params,
       })
       .then((response) => {
         setNotes(response.data?.results);
         console.log(response);
+        setSortYear([
+          ...new Set(response.data?.results.map((note) => note.year)),
+        ]);
+        // console.log([
+        //   ...new Set(response.data?.results.map((note) => note.year)),
+        // ]);
       })
       .catch((error) => console.log(error.response));
-  }, [sort, month]);
+  }, [sort, month, year]);
 
   return (
     <div className="App">
@@ -88,13 +91,15 @@ const Home = () => {
           onChange={handleChange}
           sortType={sortType}
         />
-        {/*<select value={yearValue} onChange={handleYearChange}>
-          {sortYear.map((value, index) => (
-            <option value={value} key={index}>
-              {value}
-            </option>
-          ))}
-        </select>*/}
+        {sortYear !== null && (
+          <select value={year} onChange={handleYearChange}>
+            {sortYear.map((value, index) => (
+              <option value={value} key={index}>
+                {value}
+              </option>
+            ))}
+          </select>
+        )}
         <SelectOption
           value={month}
           onChange={handleMonthChange}
