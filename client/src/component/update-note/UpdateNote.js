@@ -1,26 +1,46 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter, Redirect, useParams } from "react-router-dom";
 import CustomButton from "../custom-button/CustomButton";
 import FormInput from "../form-input/FormInput";
 
-const UpdateNote = ({ match }) => {
+const UpdateNote = () => {
   const [redirect, setRedirect] = useState(false);
+  const { noteId } = useParams();
 
+  const [oldNote, setOldNote] = useState(null);
   const [note, setNote] = useState({
     title: "",
-    content: "",
+    description: "",
   });
+  const { title, description } = note;
+
+  const updateNote = () => {
+    axios
+      .put(oldNote.url, {
+        title,
+        description,
+      })
+      .then((response) => setRedirect(true))
+      .catch((error) => console.log(error));
+  };
 
   useEffect(() => {
-    const preload = (noteId) => {
-      axios
-        .put(`http://localhost:8000/api/notes/${noteId}`, note)
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
-    };
-    preload(match.params.noteId);
-  }, [match.params.noteId]);
+    axios
+      .get(`http://localhost:8000/api/notes/${noteId}`, {
+        title,
+        description,
+      })
+      .then((response) => {
+        setOldNote(response.data);
+        setNote({
+          title: response.data?.title,
+          description: response.data?.description,
+        });
+      })
+      .catch((error) => console.log(error));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -34,11 +54,10 @@ const UpdateNote = ({ match }) => {
   };
 
   const submitNote = (event) => {
-    setRedirect(!redirect);
+    updateNote();
     setNote({
       title: "",
-      content: "",
-      date: "",
+      description: "",
     });
     event.preventDefault();
   };
@@ -52,22 +71,15 @@ const UpdateNote = ({ match }) => {
           value={note.title}
           placeholder={note.title}
         />
-        <FormInput
-          type="date"
-          name="date"
-          onChange={handleChange}
-          value={note.date}
-        />
-
         <textarea
-          name="content"
+          name="description"
           onChange={handleChange}
-          value={note.content}
-          placeholder="Take a note..."
+          value={note.description}
+          placeholder={note.description}
           rows="3"
         />
         <CustomButton onClick={submitNote}>SUBMIT</CustomButton>
-        {redirect ? <Redirect to="/" /> : ""}
+        {redirect ? <Redirect push to="/" /> : ""}
       </form>
     </div>
   );

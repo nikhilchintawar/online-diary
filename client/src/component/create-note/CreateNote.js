@@ -3,11 +3,9 @@ import { useState } from "react";
 import CustomButton from "../custom-button/CustomButton";
 import FormInput from "../form-input/FormInput";
 import axios from "axios";
-import { Redirect, useRouteMatch } from "react-router-dom";
 
 const CreateNote = () => {
   const [isExpanded, setExpanded] = useState(false);
-  const { url } = useRouteMatch();
   const [note, setNote] = useState({
     title: "",
     description: "",
@@ -30,7 +28,7 @@ const CreateNote = () => {
         title: note.title,
         description: note.description,
       })
-      .then((response) => <Redirect from={url} to="/" />)
+      .then((response) => console.log(response))
       .catch((error) => console.log(error.response));
     setNote({
       title: "",

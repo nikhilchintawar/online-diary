@@ -2,7 +2,7 @@ import "./Note.css";
 import { Link } from "react-router-dom";
 import CustomButton from "./../custom-button/CustomButton";
 
-const Note = ({ id, title, content, date, deleteNote, updateNote }) => {
+const Note = ({ id, title, content, date, deleteNote }) => {
   return (
     <div className="note">
       <header>
@@ -18,7 +18,7 @@ const Note = ({ id, title, content, date, deleteNote, updateNote }) => {
       <div className="note-buttons">
         <CustomButton onClick={() => deleteNote(id)}>Delete</CustomButton>
         <Link to={`/update/${id}`}>
-          <CustomButton onClick={() => updateNote(id)}>edit</CustomButton>
+          <CustomButton>edit</CustomButton>
         </Link>
       </div>
     </div>
