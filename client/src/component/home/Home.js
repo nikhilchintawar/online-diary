@@ -4,7 +4,6 @@ import "./Home.css";
 import CreateNote from "../create-note/CreateNote";
 import { useEffect, useState } from "react";
 import Note from "../note/Note";
-import UpdateNote from "../update-note/UpdateNote";
 import Header from "../header/Header";
 import SelectOption from "../select-option/SelectOption";
 

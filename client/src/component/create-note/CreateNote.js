@@ -3,12 +3,14 @@ import { useState } from "react";
 import CustomButton from "../custom-button/CustomButton";
 import FormInput from "../form-input/FormInput";
 import axios from "axios";
+import { Redirect, useRouteMatch } from "react-router-dom";
 
 const CreateNote = () => {
   const [isExpanded, setExpanded] = useState(false);
+  const { url } = useRouteMatch();
   const [note, setNote] = useState({
     title: "",
-    content: "",
+    description: "",
   });
 
   const handleChange = (event) => {
@@ -22,18 +24,17 @@ const CreateNote = () => {
     });
   };
 
-  const addNote = () => {
-    axios
-      .post(`http://localhost:8000/api/notes/`, note)
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error));
-  };
-
   const submitNote = (event) => {
-    addNote(note);
+    axios
+      .post(`http://localhost:8000/api/notes/`, {
+        title: note.title,
+        description: note.description,
+      })
+      .then((response) => <Redirect from={url} to="/" />)
+      .catch((error) => console.log(error.response));
     setNote({
       title: "",
-      content: "",
+      description: "",
     });
     event.preventDefault();
   };
@@ -64,10 +65,10 @@ const CreateNote = () => {
         )}
 
         <textarea
-          name="content"
+          name="description"
           onClick={expand}
           onChange={handleChange}
-          value={note.content}
+          value={note.description}
           placeholder="Take a note..."
           rows={isExpanded ? 3 : 1}
         />
