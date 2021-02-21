@@ -11,8 +11,8 @@ const Home = () => {
   const [notes, setNotes] = useState(null);
 
   const [sortType] = useState([
-    { value: "asc", label: "NEWEST FIRST" },
-    { value: "desc", label: "OLDEST FIRST" },
+    { value: "desc", label: "NEWEST FIRST" },
+    { value: "asc", label: "OLDEST FIRST" },
   ]);
   const [sort, setSort] = useState(sortType[0].value);
 

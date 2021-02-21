@@ -45,7 +45,7 @@ class NotesViewSet(viewsets.ModelViewSet):
         if month is not None:
             notes = notes.filter(created_at__month__icontains=month).distinct()
 
-        default_order = "asc"
+        default_order = "desc"
         sorts = {
             "asc": "created_at",
             "desc": "-created_at",
